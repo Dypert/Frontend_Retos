@@ -1,0 +1,108 @@
+function traerInformacionDoctor(){
+    $.ajax({
+        url:"http://132.226.250.250:8080/api/Doctor/all",
+        type:"GET",
+        datatype:"JSON",
+        success:function(respuesta){
+            console.log(respuesta);
+            pintarRespuestaDoctor(respuesta);
+        }
+    });
+}
+
+function pintarRespuestaDoctor(items){
+    let myTable="<table style='width: 40%'>";
+    myTable+="<tr>";
+    myTable+="<th> Oname </th>";
+    myTable+="<th> Odepartment </th>";
+    myTable+="<th> Oyear </th>";
+    myTable+="<th> Odescriptio </th>";
+    myTable+="<th colspan='2'> Botones </th>";
+    myTable+="</tr>";
+    for(i=0;i<items.length;i++){
+        myTable+="<tr>";
+        myTable+="<td>" +items[i].name+"</td>";
+        myTable+="<td>" +items[i].department+"</td>";
+        myTable+="<td>" +items[i].year+"</td>";
+        myTable+="<td>" +items[i].description+"</td>";
+        myTable+="<td> <button onclick='actualizarInformacionDoctor("+items[i].id+")'>Actualizar</button> </td>";
+        myTable+="<td> <button onclick='borrarElementoDoctor("+items[i].id+")'>Borrar</button> </td>";
+        myTable+="</tr>";
+    }
+    myTable+="</table>";
+    $("#resultadoDoctor").html(myTable);
+}
+
+function guardarInformacionDoctor(){
+    let myData={
+        name:$("#Oname").val(),
+        brand:$("#Odepartment").val(),
+        year:$("#Oyear").val(),
+        description:$("#Odescription").val()
+    };
+
+    $.ajax({
+        url: "http://132.226.250.250:8080/api/Doctor/save",
+        type:"POST",
+        contentType: "application/json; charset=utf-8",
+        data:myData,
+        data: JSON.stringify(myData),
+        datatype:"JSON",
+
+        success:function(respuesta){
+            $("#resultadoDoctor").empty();
+            $("#Oname").val("");
+            $("#Odepartment").val("");
+            $("#Oyear").val("");
+            $("#Odescription").val("");
+            traerInformacionDoctor();
+            alert("se ha guardado el dato");
+        }
+    });
+}
+
+function actualizarInformacionDoctor(idElemento){
+    let myData1={
+        id:idElemento,
+        name:$("#Oname").val(),
+        brand:$("#Odepartment").val(),
+        year:$("#Oyear").val(),
+        description:$("#Odescription").val()
+
+    };
+    console.log(myData1);
+    let dataToSend=JSON.stringify(myData1);
+    $.ajax({
+        url:"http://132.226.250.250:8080/api/Doctor/update",
+        type:"PUT",
+        data:dataToSend,
+        contentType:"application/JSON",
+        datatype:"JSON",
+        success:function(respuesta){
+            $("#resultadoDoctor").empty();
+            $("#Oname").val("");
+            $("#Odepertment").val("");
+            $("#Oyear").val("");
+            $("#Odescription").val("");
+            traerInformacionDoctor();
+            alert("se ha Actualizado")
+        }
+    });
+
+}
+
+function borrarElementoDoctor(idElemento){
+    
+    $.ajax({
+        url: "http://132.226.250.250:8080/api/Doctor/"+idElemento,
+        type:"DELETE",
+        contentType:"application/JSON",
+        datatype:"JSON",
+
+        success:function(respuesta){
+            traerInformacionDoctor();
+            alert("se ha guardado el dato");
+        }
+
+    });
+}

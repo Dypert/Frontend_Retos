@@ -1,0 +1,108 @@
+function traerInformacionCliente(){
+    $.ajax({
+        url:"http://132.226.250.250:8080/api/Client/all",
+        type:"GET",
+        datatype:"JSON",
+        success:function(respuesta){
+            console.log(respuesta);
+            pintarRespuestaCliente(respuesta);
+        }
+    });
+}
+
+function pintarRespuestaCliente(items){
+    let myTable="<table style='width: 40%'>";
+    myTable+="<tr>";
+    myTable+="<th> Clemail </th>";
+    myTable+="<th> Clpassword </th>";
+    myTable+="<th> Clname </th>";
+    myTable+="<th> Clage </th>";
+    myTable+="<th colspan='2'> Botones </th>";
+    myTable+="</tr>";
+    for(i=0;i<items.length;i++){
+        myTable+="<tr>";
+        myTable+="<td>" +items[i].email+"</td>";
+        myTable+="<td>" +items[i].password+"</td>";
+        myTable+="<td>" +items[i].name+"</td>";
+        myTable+="<td>" +items[i].age+"</td>";
+        myTable+="<td> <button onclick='actualizarInformacionCliente("+items[i].idCliente+")'>Actualizar</button> </td>";
+        myTable+="<td> <button onclick='borrarElementoCliente("+items[i].idCliente+")'>Borrar</button> </td>";
+        myTable+="</tr>";
+    }
+    myTable+="</table>";
+    $("#resultadoCliente").html(myTable);
+}
+
+function guardarInformacionCliente(){
+    let myData={
+        email:$("#Clemail").val(),
+        password:$("#Clpassword").val(),
+        name:$("#Clname").val(),  
+        age:$("#Clage").val()
+    };
+
+    $.ajax({
+        url: "http://132.226.250.250/api/Client/save",
+        type:"POST",
+        contentType: "application/json; charset=utf-8",
+        data:myData,
+        data: JSON.stringify(myData),
+        datatype:"JSON",
+
+        success:function(respuesta){
+            $("#resultadoCliente").empty();
+            $("#Clemail").val("");
+            $("#Clpassword").val("");
+            $("#Clname").val("");
+            $("#Clage").val("");
+            traerInformacionCliente();
+            alert("se ha guardado el dato");
+        }
+    });
+}
+
+function actualizarInformacionCliente(idElemento1){
+    let myData={
+        idClient:idElemento1,
+        email:$("#Clemail").val(),
+        password:$("#Clpassword").val(),
+        name:$("#Clname").val(),  
+        age:$("#Clage").val()
+    };
+    console.log(myData);
+    let dataToSend=JSON.stringify(myData);
+    $.ajax({
+        url:"http://132.226.250.250:8080/api/Client/update",
+        type:"PUT"
+        data:dataToSend;
+        contentType:"application/JSON",
+        datatype:"JSON",
+
+        success:function(respuesta){
+            $("#resultadoCliente").empty();
+            $("#Clemail").val("");
+            $("#Clpassword").val("");
+            $("#Clname").val("");
+            $("#Clage").val("");
+            traerInformacionCliente();
+            alert("se ha guardado el dato");
+        }
+    });
+
+}
+
+function borrarElementoCliente(idElemento){
+    
+    $.ajax({
+        url: "http://132.226.250.250:8080/api/Client/"+idElemento,
+        type:"DELETE",
+        contentType:"application/JSON",
+        datatype:"JSON",
+
+        success:function(respuesta){
+            traerInformacionCliente();
+            alert("se ha guardado el dato");
+        }
+
+    });
+}

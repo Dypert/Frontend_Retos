@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Front-Retos</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/Especialidad"></script>
+    <script type="text/javascript" src="js/Doctor"></script>
+    <script type="text/javascript" src="js/Cliente"></script>
+    <script type="text/javascript" src="js/Mensaje"></script>
+    <script type="text/javascript" src="js/Reservaciones"></script>
+    <script type="text/javascript" src="js/Reportes"></script>
+</head>
+
+<body>
+
+    <style type="text/css">
+        table, th, td {
+            border: 2px solid black;
+            border-collapse: collapse; 
+            text-align: center;
+        }
+
+        button{
+            background-color: rgb(227, 230, 236);
+        }
+    </style>
+
+    <p>
+    
+    </p>
+    <h3> Especialidad </h3>
+
+    <table style="width: 40%">
+
+        <tr>
+            <th colspan='2'> Especialidad </th>
+        </tr>
+
+        <tr>
+            <td><input type="text" id="Cname" placeholder="name"></td>
+            <td><button onclick="guardarInformacionEspecialidad()">GuardarEspecialidad</button></td>
+        </tr>
+        <tr>
+            <td><input type="text" id="Cdescription" placeholder="description"></td>
+            <td><button onclick="traerInformacionEspecialidad()"> ConsultarEspecialidad</button></td>
+        </tr>
+    </table>
+
+    <div id="resultadoEspecialidad"></div>
+
+    <p>
+        
+    </p>
+
+    <h3> Doctor </h3>
+
+    <table style="width: 40%">
+
+        <tr>
+            <th colspan='3'> Doctor </th>
+        </tr>
+
+        <tr>
+            <td> <input type="text" id="Oname" placeholder="name"> </td>
+            <td> <input type="text" id="Odepartment" placeholder="department"> </td>
+            <td><button onclick="guardarInformacionDoctor()">Guardar Doctor</button></td>
+        </tr>
+
+        <tr>
+            <td> <input type="number" id="Oyear" placeholder="year"> </td>
+            <td> <input type="text" id="Odescription" placeholder="description"> </td>
+            <td> <button onclick="traerInformacionDoctor()"> Consultar Doctor</button></td>
+        </tr>
+    </table>
+
+    <div id="resultadoDoctor"></div>
+
+    <p>
+        
+    </p>
+
+    <h3> Cliente </h3>
+
+    <table style="width: 40%">
+        
+        <tr>
+            <th colspan='3'> Cliente </th>
+        </tr>
+
+        <tr>
+            <td> <input type="text" id="Clemail" placeholder="email"> </td>
+            <td> <input type="text" id="Clpassword" placeholder="password"> </td>
+            <td> <button onclick="guardarInformacionCliente()">Guardar Cliente</button> </td>
+        </tr>
+    
+        <tr>
+            <td> <input type="text" id="Clname" placeholder="name"> </td>
+            <td> <input type="number" id="Clage" placeholder="age"> </td>
+            <td> <button onclick="traerInformacionCliente()"> Consultar Cliente</button> </td>
+        </tr>
+    </table>
+    
+    <div id="resultadoCliente"></div>
+
+    <p>
+        
+    </p>
+
+    <h3> Mensajes </h3>
+
+    <table style="width: 40%">
+
+        <tr>
+            <th colspan='3'> Mensajes </th>
+        </tr>
+    
+        <tr>
+            <td> <input type="text" id="MensajeText" placeholder="mensajeText"> </td>
+    
+            <td> <button onclick="guardarInformacionMensaje()">Guardar Mensaje</button> </td>
+            <td> <button onclick="traerInformacionMensaje()"> Consultar Mensaje</button> </td>
+        </tr>
+    
+    </table>
+    
+    <div id="resultadoMensaje"></div>
+    <p>
+        
+    </p>
+
+    <h3> Reservaciones </h3>
+
+    <table style="width: 40%">
+        <tr>
+            <th>Fecha Inicial</th>
+            <th>Fecha Final</th>
+        </tr>
+
+        <tr>
+            <td> <input type="date" id="StartDate" placeholder="startDate"> </td>
+            <td> <input type="date" id="DevolutionDate" placeholder="devolutionDate"> </td>
+        </tr>
+    
+        <tr>
+            <td><button onclick="guardarInformacionReservaciones()">Guardar Reservaciones</button></td>
+            <td><button onclick="traerInformacionReservaciones()"> Consultar Reservaciones</button></td>
+        </tr>
+    </table>
+    
+    <div id="resultadoReservaciones"></div>
+    <p>
+        
+    </p>
+
+    
+    <button onclick="traerReporteStatus()"> Generar Reporte Status Reservas </button>
+    <div id="resultadoStatus"></div>
+
+    <input type="date" id="RstarDate" placeholder="descripcion">
+    <input type="date" id="RdevolutionDate" placeholder="descripcion">
+    <button onclick="traerReporteDate()"> Generar Reporte por fecha </button>
+    <div id="resultadoDate"></div>
+
+    <button onclick="traerReporteCliente()"> Generar Reporte Clientes y Cantidad de reservas por cliente </button>
+    <div id="resultadoClientes"></div>
+    
+</body>
+
+
+
+</html>

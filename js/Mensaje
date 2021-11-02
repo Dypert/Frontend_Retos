@@ -1,0 +1,90 @@
+function traerInformacionMensaje(){
+    $.ajax({
+        url:"http://132.226.250.250:8080/api/Message/all",
+        type:"GET",
+        datatype:"JSON",
+        success:function(respuesta){
+            console.log(respuesta);
+            pintarRespuestaMensaje(respuesta)
+        }
+    });
+}
+
+function pintarRespuestaMensaje(respuesta){
+    let myTable="<table style='width: 40%'>";
+    myTable+="<tr>";
+    myTable+="<th> Mensaje </th>";
+    myTable+="<th colspan='2'> Botones </th>";
+    myTable+="</tr>";
+    for(m=0;m<respuesta.length;m++){
+        myTable+="<tr>";
+        myTable+="<td>" +respuesta[m].mensajeText+"</td>";
+        myTable+="<td> <button onclick='actualizarInformacionMensaje("+respuesta[m].idMensaje+")'>Actualizar</button> </td>";
+        myTable+="<td> <button onclick='borrarElementoMensaje("+respuesta[m].idMensaje+")'>Borrar</button> </td>";
+        myTable+="</tr>";
+    }
+    myTable+="</table>";
+    $("#resultadoMensaje").html(myTable);
+}
+
+function guardarInformacionMensaje(){
+    let myData1={
+        mensajeText:$("#MensajeText").val()
+    };
+
+    $.ajax({
+        url: "http://132.226.250.250:8080/api/Message/save",
+        type:"POST",
+        contentType: "application/json; charset=utf-8",
+        data:myData1,
+        data: JSON.stringify(myData1),
+        datatype:"JSON",
+
+        success:function(respuesta){
+            $("#resultadoMensaje").empty();
+            $("#MensajeText").val("");
+            traerInformacionMensaje();
+            alert("se ha guardado el dato");
+        }
+    });
+}
+
+function actualizarInformacionMensaje(idElemento){
+    let myData={
+        idMessage:idElemento,
+        messageText:$("#MensajeText").val()
+
+    };
+    console.log(myData);
+    let dataToSend=JSON.stringify(myData);
+    $.ajax({
+        url:"http://132.226.250.250:8080/api/Message/update",
+        type:"PUT",
+        data:dataToSend,
+        contentType:"application/JSON",
+        datatype:"JSON",
+        success:function(respuesta){
+            $("#resultadoMensaje").empty();
+            $("#id").val("");
+            $("#MensajeText").val("");
+            traerInformacionMensaje();
+            alert("se ha Actualizado")
+        }
+    });
+
+}
+
+function borrarElementoMensaje(idElemento){
+    
+    $.ajax({
+        url: "http://132.226.250.250:8080/api/Message/"+idElemento,
+        type:"DELETE",
+        contentType:"application/JSON",
+        datatype:"JSON",
+        success:function(respuesta){
+            $("#resultadoMensaje").empty();
+            traerInformacionMensaje();
+            alert("Se ha Eliminado.")
+        }
+    });
+}
